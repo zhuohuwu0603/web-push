@@ -156,7 +156,9 @@ public class PushService {
      * Send a notification
      */
     public HttpResponse send(Notification notification) throws NoSuchPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, IOException, InvalidKeySpecException {
-        Request request = Request.Post(notification.getEndpoint());
+        Request request = Request
+            .Post(notification.getEndpoint())
+            .addHeader("TTL", String.valueOf(notification.getTTL()));
 
         if (notification instanceof GcmNotification) {
             if (null == gcmApiKey) {
@@ -181,7 +183,6 @@ public class PushService {
                 .addHeader("Content-Encoding", "aesgcm128")
                 .addHeader("Encryption-Key", "keyid=p256dh;dh=" + encoder.encode(dh))
                 .addHeader("Encryption", "keyid=p256dh;salt=" + encoder.encode(salt))
-                .addHeader("TTL", "2419200")
                 .bodyByteArray(encrypted.getCiphertext());
         }
 

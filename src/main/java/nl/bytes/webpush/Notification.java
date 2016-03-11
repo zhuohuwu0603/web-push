@@ -3,14 +3,35 @@ package nl.bytes.webpush;
 import java.security.PublicKey;
 
 public class Notification {
+    /**
+     * The endpoint associated with the push subscription
+     */
     private final String endpoint;
+
+    /**
+     * The client's public key
+     */
     private final PublicKey userPublicKey;
+
+    /**
+     * An arbitrary payload
+     */
     private final byte[] payload;
 
-    public Notification(final String endpoint, final PublicKey userPublicKey, final byte[] payload) {
+    /**
+     * Time in seconds that the push message is retained by the push service
+     */
+    private final int ttl;
+
+    public Notification(final String endpoint, final PublicKey userPublicKey, final byte[] payload, int ttl) {
         this.endpoint = endpoint;
         this.userPublicKey = userPublicKey;
         this.payload = payload;
+        this.ttl = ttl;
+    }
+
+    public Notification(final String endpoint, final PublicKey userPublicKey, final byte[] payload) {
+        this(endpoint, userPublicKey, payload, 2419200);
     }
 
     public String getEndpoint() {
@@ -23,5 +44,9 @@ public class Notification {
 
     public byte[] getPayload() {
         return payload;
+    }
+
+    public int getTTL() {
+        return ttl;
     }
 }
