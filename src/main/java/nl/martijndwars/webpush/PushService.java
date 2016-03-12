@@ -47,20 +47,11 @@ public class PushService {
         keyPairGenerator.initialize(parameterSpec);
 
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
         PublicKey publicKey = keyPair.getPublic();
-//        KeyFactory kf = KeyFactory.getInstance("ECDH", "BC");
-//        ECNamedCurveParameterSpec ecSpec = ECNamedCurveTable.getParameterSpec("secp256r1");
-//        ECPoint point = ecSpec.getCurve().decodePoint(DatatypeConverter.parseHexBinary("04437ccef153da153724d07e33daff32ee812819af30a04d10e1b7ba515056dc1bc87a716cc0b19d7a1241a54f25e414a0f35ff8388b758cde36c9f9d7265d930e"));
-//        ECPublicKeySpec pubSpec = new ECPublicKeySpec(point, ecSpec);
-//        PublicKey publicKey = kf.generatePublic(pubSpec);
 
         SecretKey secretKey = computeSecret(keyPair.getPrivate(), userPublicKey);
-//        byte[] secretKeyBytes = new byte[16];//DatatypeConverter.parseHexBinary("0000000000000000000000000000000002000000000000000000000000000200");
-//        SecretKey secretKey = new SecretKeySpec(secretKeyBytes, 0, secretKeyBytes.length, "AES");
 
-        byte[] salt = generateSalt(16);
-//        byte[] salt = DatatypeConverter.parseHexBinary("c5d2ae41c080e0d49297c0d9d10ec062");
+        byte[] salt = SecureRandom.getSeed(16);
         byte[] ciphertext = encrypt(secretKey, salt, payload);
 
         return new Encrypted.Builder()
@@ -119,21 +110,6 @@ public class PushService {
         String prefix = "Content-Encoding: ";
 
         return (prefix + base).getBytes();
-
-        //return Arrays.copyOf((prefix + base).getBytes(), prefix.length() + base.length() + 1);
-    }
-
-    /**
-     * Generate a random salt of length bytes
-     *
-     * @param length
-     * @return
-     */
-    protected static byte[] generateSalt(int length) {
-        byte[] salt = new byte[length];
-        new Random().nextBytes(salt);
-
-        return salt;
     }
 
     /**
