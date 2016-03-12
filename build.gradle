@@ -1,4 +1,4 @@
-group 'nl.bytes'
+group 'nl.martijndwars'
 version '1.0'
 
 apply plugin: 'java'

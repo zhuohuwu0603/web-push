@@ -1,4 +1,4 @@
-package nl.bytes.webpush;
+package nl.martijndwars.webpush;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package nl.bytes.webpush;
+package nl.martijndwars.webpush;
 
 import com.google.common.io.BaseEncoding;
 import org.apache.http.HttpResponse;
@@ -17,8 +17,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
-import java.util.Base64.Encoder;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package nl.bytes.webpush;
+package nl.martijndwars.webpush;
 
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.ECNamedCurveTable;
