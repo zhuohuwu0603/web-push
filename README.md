@@ -7,7 +7,7 @@ A Web Push library for Java.
 For Gradle, add the following dependency:
 
 ```
-compile group: 'nl.bytes', name: 'webpush', version: '1.0-SNAPSHOT'
+compile group: 'nl.martijndwars', name: 'web-push', version: '1.0-SNAPSHOT'
 ```
 
 ## Usage
@@ -26,7 +26,12 @@ PushService pushService = new PushService("4pik3y");
 pushService.send(notification);
 ```
 
+## Credit
+
+To give credit where credit is due, this library is mostly a Java port of marco-c/web-push. 
+
 ## Related
 
 - For PHP, see [Minishlink/web-push](https://github.com/Minishlink/web-push)
 - For nodejs, see [marco-c/web-push](https://github.com/marco-c/web-push) and [GoogleChrome/push-encryption-node](https://github.com/GoogleChrome/push-encryption-node)
+
