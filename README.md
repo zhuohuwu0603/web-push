@@ -7,7 +7,7 @@ A Web Push library for Java.
 For Gradle, add the following dependency:
 
 ```
-compile group: 'nl.martijndwars', name: 'web-push', version: '1.0-SNAPSHOT'
+compile group: 'nl.martijndwars', name: 'web-push', version: '0.1.0'
 ```
 
 ## Usage

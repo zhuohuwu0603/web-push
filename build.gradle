@@ -1,15 +1,81 @@
 group 'nl.martijndwars'
-version '1.0'
+version '0.1.0'
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
     baseName = 'web-push'
-    version = '1.0'
+    version = '0.1.0'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+
+    archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'web-push'
+        packaging 'jar'
+        description 'A Web Push library for Java.'
+        url 'https://github.com/MartijnDwars/web-push'
+
+        scm {
+          connection 'scm:git:git@github.com:MartijnDwars/web-push.git'
+          developerConnection 'scm:git:git@github.com:MartijnDwars/web-push.git'
+          url 'git@github.com:MartijnDwars/web-push.git'
+        }
+
+        licenses {
+          license {
+            name 'MIT License'
+            url 'https://opensource.org/licenses/MIT'
+          }
+        }
+
+        developers {
+          developer {
+            id 'martijndwars'
+            name 'Martijn Dwars'
+            email 'ikben@martijndwars.nl'
+          }
+        }
+      }
+    }
+  }
 }
 
 repositories {
