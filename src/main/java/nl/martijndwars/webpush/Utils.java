@@ -13,7 +13,6 @@ import org.bouncycastle.math.ec.ECPoint;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
 
 public class Utils {
     public static byte[] savePublicKey(ECPublicKey publicKey) {

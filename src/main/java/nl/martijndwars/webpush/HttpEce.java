@@ -15,9 +15,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 /**
- * HTTP ECE (Encrypted Content Encoding)
- *
- * See https://tools.ietf.org/html/draft-ietf-httpbis-encryption-encoding-01
+ * An implementation of HTTP ECE (Encrypted Content Encoding) as described in
+ * https://tools.ietf.org/html/draft-ietf-httpbis-encryption-encoding-01
  */
 public class HttpEce {
     private Map<String, KeyPair> keys;
@@ -44,7 +43,7 @@ public class HttpEce {
 
         return buffer.array();
     }
-    
+
     public byte[][] deriveKey(byte[] salt, byte[] key, String keyId, PublicKey dh, byte[] authSecret, int padSize) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException, IOException {
         byte[] secret = null;
         byte[] context = null;
@@ -114,7 +113,7 @@ public class HttpEce {
     private byte[][] deriveDH(String keyId, PublicKey publicKey) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         PublicKey senderPubKey = keys.get(keyId).getPublic();
 
-        KeyAgreement keyAgreement = KeyAgreement.getInstance("ECDH", "BC");
+        KeyAgreement keyAgreement = KeyAgreement.getInstance("ECDH");
         keyAgreement.init(keys.get(keyId).getPrivate());
         keyAgreement.doPhase(publicKey, true);
 
@@ -139,8 +138,8 @@ public class HttpEce {
     private byte[] intToBytes(int x) throws IOException {
         byte[] bytes = new byte[2];
 
-        bytes[1] = (byte)(x & 0xff);
-        bytes[0] = (byte)(x >> 8);
+        bytes[1] = (byte) (x & 0xff);
+        bytes[0] = (byte) (x >> 8);
 
         return bytes;
     }
@@ -163,17 +162,15 @@ public class HttpEce {
         return combined;
     }
 
-
     public byte[] encrypt(byte[] buffer, byte[] salt, byte[] key, String keyid, PublicKey dh, byte[] authSecret, int padSize) throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, NoSuchProviderException, IOException {
         byte[][] derivedKey = deriveKey(salt, key, keyid, dh, authSecret, padSize);
         byte[] key_ = derivedKey[0];
         byte[] nonce_ = derivedKey[1];
 
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key_, "AES"), new GCMParameterSpec(16 * 8, nonce_));
         cipher.update(new byte[2]);
-        cipher.update(buffer);
 
-        return cipher.doFinal();
+        return cipher.doFinal(buffer);
     }
 }

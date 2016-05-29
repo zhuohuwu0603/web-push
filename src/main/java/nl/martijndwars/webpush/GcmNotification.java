@@ -1,9 +1,6 @@
 package nl.martijndwars.webpush;
 
-import org.json.JSONObject;
-
 import java.security.PublicKey;
-import java.util.Collections;
 
 public class GcmNotification extends Notification {
     public GcmNotification(String endpoint, PublicKey userPublicKey, byte[] userAuth, byte[] payload) {

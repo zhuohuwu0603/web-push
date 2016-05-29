@@ -37,7 +37,7 @@ public class PushServiceTest {
             endpoint,
             userPublicKey,
             userAuth,
-            "Hello world!!".getBytes()
+            "{\"title\": \"Hello\", \"message\": \"World\"}".getBytes()
         );
 
         PushService pushService = new PushService(gcmApiKey);
