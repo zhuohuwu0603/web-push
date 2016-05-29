@@ -20,4 +20,9 @@ public class GcmNotification extends Notification {
     public String getRegistrationId() {
         return super.getEndpoint().substring(super.getEndpoint().lastIndexOf("/") + 1);
     }
+
+    @Override
+    public int getPadSize() {
+        return 2;
+    }
 }

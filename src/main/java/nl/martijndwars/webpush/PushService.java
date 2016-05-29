@@ -42,7 +42,7 @@ public class PushService {
      * @return An Encrypted object containing the public key, salt, and
      * ciphertext, which can be sent to the other party.
      */
-    public static Encrypted encrypt(byte[] buffer, PublicKey userPublicKey, byte[] userAuth) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, IOException {
+    public static Encrypted encrypt(byte[] buffer, PublicKey userPublicKey, byte[] userAuth, int padSize) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, IOException {
         ECNamedCurveParameterSpec parameterSpec = ECNamedCurveTable.getParameterSpec("prime256v1");
 
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDH", "BC");
@@ -59,7 +59,7 @@ public class PushService {
         byte[] salt = SecureRandom.getSeed(16);
 
         HttpEce httpEce = new HttpEce(keys, labels);
-        byte[] ciphertext = httpEce.encrypt(buffer, salt, null, "server-key-id", userPublicKey, userAuth, 2);
+        byte[] ciphertext = httpEce.encrypt(buffer, salt, null, "server-key-id", userPublicKey, userAuth, padSize);
 
         return new Encrypted.Builder()
             .withSalt(salt)
@@ -78,7 +78,8 @@ public class PushService {
         Encrypted encrypted = encrypt(
             notification.getPayload(),
             notification.getUserPublicKey(),
-            notification.getUserAuth()
+            notification.getUserAuth(),
+            notification.getPadSize()
         );
 
         byte[] dh = Utils.savePublicKey((ECPublicKey) encrypted.getPublicKey());
@@ -108,8 +109,8 @@ public class PushService {
             request
                 .addHeader("Content-Type", "application/octet-stream")
                 .addHeader("Content-Encoding", "aesgcm128")
-                .addHeader("Encryption-Key", "keyid=p256dh;dh=" + base64url.encode(dh))
-                .addHeader("Encryption", "keyid=p256dh;salt=" + base64url.encode(salt))
+                .addHeader("Encryption-Key", "keyid=p256dh;dh=" + base64url.omitPadding().encode(dh))
+                .addHeader("Encryption", "keyid=p256dh;salt=" + base64url.omitPadding().encode(salt))
                 .bodyByteArray(encrypted.getCiphertext());
         }
 

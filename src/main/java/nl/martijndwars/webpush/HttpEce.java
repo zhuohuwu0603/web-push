@@ -169,7 +169,7 @@ public class HttpEce {
 
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding", "BC");
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key_, "AES"), new GCMParameterSpec(16 * 8, nonce_));
-        cipher.update(new byte[2]);
+        cipher.update(new byte[padSize]);
 
         return cipher.doFinal(buffer);
     }

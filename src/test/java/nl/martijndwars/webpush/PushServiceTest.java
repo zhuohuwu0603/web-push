@@ -22,7 +22,7 @@ public class PushServiceTest {
     }
 
     @Test
-    public void testPush() throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException, ExecutionException, InterruptedException {
+    public void testPushChrome() throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException, ExecutionException, InterruptedException {
         Security.addProvider(new BouncyCastleProvider());
 
         String gcmApiKey = "AIzaSyDSa2bw0b0UGOmkZRw-dqHGQRI_JqpiHug";
@@ -41,6 +41,28 @@ public class PushServiceTest {
         );
 
         PushService pushService = new PushService(gcmApiKey);
+        Future<Content> httpResponse = pushService.send(notification);
+
+        System.out.println(httpResponse.get().asString());
+    }
+
+    @Test
+    public void testPushFirefox() throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException, ExecutionException, InterruptedException {
+        Security.addProvider(new BouncyCastleProvider());
+
+        String endpoint = "https://updates.push.services.mozilla.com/push/v1/gAAAAABXS0Nhothwqf0Je2mmjuRgyXjgVylY0yZ4qmP3cglrFoneY-XOLdJuGZOsv5Eh7ndhe8mMvge3VcLhpgbQ3w6_vWK7FZkSXhzjlaIxikL6cbW6Gok5BVw1tL1jqruy5Y-deSoz";
+        String encodedUserPublicKey = "BNP6uzB5yqQDltCnO1snr-Qx3wLUPgeznuUQjfFbmehRHJK3s4eaqy04nOnm9796mceidVJPlFaobd94yjwtmpU=";
+
+        PublicKey userPublicKey = Utils.loadPublicKey(encodedUserPublicKey);
+
+        Notification notification = new Notification(
+            endpoint,
+            userPublicKey,
+            null,
+            "{\"title\": \"Hello\", \"message\": \"World\"}".getBytes()
+        );
+
+        PushService pushService = new PushService();
         Future<Content> httpResponse = pushService.send(notification);
 
         System.out.println(httpResponse.get().asString());

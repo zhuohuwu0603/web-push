@@ -59,4 +59,8 @@ public class Notification {
     public int getTTL() {
         return ttl;
     }
+
+    public int getPadSize() {
+        return 1;
+    }
 }
