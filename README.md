@@ -7,20 +7,22 @@ A Web Push library for Java.
 For Gradle, add the following dependency:
 
 ```
-compile group: 'nl.martijndwars', name: 'web-push', version: '0.1.0'
+compile group: 'nl.martijndwars', name: 'web-push', version: '1.0.0'
 ```
 
 ## Usage
 
+The server should have stored a subscription containing the `userPublicKey` and `userAuth` keys. Use these keys to create a `Notification` or `GcmNotification`, depending on whether the subscription is for Google Cloud Messaging.
+
 ```java
 // Create a notification with the endpoint, userPublicKey from the subscription and a custom payload
-Notification notification = new Notification(endpoint, userPublicKey, payload, ttl);
+Notification notification = new Notification(endpoint, userPublicKey, userAuth, payload, ttl);
 
 // Or create a GcmNotification, in case of Google Cloud Messaging, which does not support a payload/encryption
-Notification notification = new GcmNotification(endpoint);
+Notification notification = new GcmNotification(endpointi, userPublicKey, userAuth, payload);
 
 // Instantiate the push service with a GCM API key
-PushService pushService = new PushService("4pik3y");
+PushService pushService = new PushService("gcm-api-key");
 
 // Send the notification
 pushService.send(notification);
@@ -28,7 +30,7 @@ pushService.send(notification);
 
 ## Credit
 
-To give credit where credit is due, this library is mostly a Java port of marco-c/web-push. 
+To give credit where credit is due, the PushService is mostly a Java port of marco-c/web-push. The HttpEce class is mostly a Java port of martinthomson/encrypted-content-encoding.
 
 ## Related
 

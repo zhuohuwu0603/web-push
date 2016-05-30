@@ -1,5 +1,5 @@
 group 'nl.martijndwars'
-version '0.1.0'
+version '1.0.0'
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -10,7 +10,7 @@ targetCompatibility = 1.8
 
 jar {
     baseName = 'web-push'
-    version = '0.1.0'
+    version = '1.0.0'
 }
 
 task javadocJar(type: Jar) {
