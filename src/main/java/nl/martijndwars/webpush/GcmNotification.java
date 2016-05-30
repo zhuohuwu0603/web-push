@@ -1,12 +1,10 @@
 package nl.martijndwars.webpush;
 
-import org.json.JSONObject;
-
-import java.util.Collections;
+import java.security.PublicKey;
 
 public class GcmNotification extends Notification {
-    public GcmNotification(String endpoint) {
-        super(endpoint, null, null);
+    public GcmNotification(String endpoint, PublicKey userPublicKey, byte[] userAuth, byte[] payload) {
+        super(endpoint, userPublicKey, userAuth, payload);
     }
 
     @Override
@@ -23,15 +21,8 @@ public class GcmNotification extends Notification {
         return super.getEndpoint().substring(super.getEndpoint().lastIndexOf("/") + 1);
     }
 
-    /**
-     * Compute the body according to the downstream message syntax. For more
-     * info, see https://goo.gl/ruf12B.
-     *
-     * @return
-     */
-    public String getBody() {
-        return new JSONObject()
-            .put("registration_ids", Collections.singletonList(getRegistrationId()))
-            .toString();
+    @Override
+    public int getPadSize() {
+        return 2;
     }
 }

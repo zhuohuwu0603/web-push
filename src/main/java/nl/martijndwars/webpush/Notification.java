@@ -14,6 +14,11 @@ public class Notification {
     private final PublicKey userPublicKey;
 
     /**
+     * The client's auth
+     */
+    private final byte[] userAuth;
+
+    /**
      * An arbitrary payload
      */
     private final byte[] payload;
@@ -23,15 +28,16 @@ public class Notification {
      */
     private final int ttl;
 
-    public Notification(final String endpoint, final PublicKey userPublicKey, final byte[] payload, int ttl) {
+    public Notification(final String endpoint, final PublicKey userPublicKey, byte[] userAuth, final byte[] payload, int ttl) {
         this.endpoint = endpoint;
         this.userPublicKey = userPublicKey;
+        this.userAuth = userAuth;
         this.payload = payload;
         this.ttl = ttl;
     }
 
-    public Notification(final String endpoint, final PublicKey userPublicKey, final byte[] payload) {
-        this(endpoint, userPublicKey, payload, 2419200);
+    public Notification(final String endpoint, final PublicKey userPublicKey, byte[] userAuth, final byte[] payload) {
+        this(endpoint, userPublicKey, userAuth, payload, 2419200);
     }
 
     public String getEndpoint() {
@@ -42,11 +48,19 @@ public class Notification {
         return userPublicKey;
     }
 
+    public byte[] getUserAuth() {
+        return userAuth;
+    }
+
     public byte[] getPayload() {
         return payload;
     }
 
     public int getTTL() {
         return ttl;
+    }
+
+    public int getPadSize() {
+        return 1;
     }
 }
