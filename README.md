@@ -4,10 +4,20 @@ A Web Push library for Java.
 
 ## Installation
 
-For Gradle, add the following dependency:
+For Gradle, add the following dependency to `build.gradle`:
 
 ```
 compile group: 'nl.martijndwars', name: 'web-push', version: '1.0.0'
+```
+
+For Maven, add the following dependency to `pom.xml`:
+
+```
+<dependency>
+    <groupId>nl.martijndwars</groupId>
+    <artifactId>web-push</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 
 ## Usage
@@ -18,7 +28,7 @@ The server should have stored a subscription containing the `userPublicKey` and 
 // Create a notification with the endpoint, userPublicKey from the subscription and a custom payload
 Notification notification = new Notification(endpoint, userPublicKey, userAuth, payload, ttl);
 
-// Or create a GcmNotification, in case of Google Cloud Messaging, which does not support a payload/encryption
+// Or create a GcmNotification, in case of Google Cloud Messaging
 Notification notification = new GcmNotification(endpointi, userPublicKey, userAuth, payload);
 
 // Instantiate the push service with a GCM API key
