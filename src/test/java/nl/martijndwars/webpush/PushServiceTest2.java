@@ -28,6 +28,7 @@ public class PushServiceTest2 {
         String gcmApiKey = "AIzaSyBqAYb9n4EnMkRIKWnd3adZc4r7txBkXPw";
         //String endpoint = "https://android.googleapis.com/gcm/send/fXYSGjgKDKA:APA91bE-sqRL3us1BfdzaF0E3DKh8fwVgEFEyT7BaUH7d6j-UauS_4cSRvhrdsbYFM4-6CWLfndYLU-FBqrlX_8xa793fSVUZxzHFz7Yec_cbtM-8J0NqKF0dUjh0mVBYWAwkWZYkmRU";
         String endpoint = "https://android.googleapis.com/gcm/send/fvTQzr9DFQM:APA91bHdgHWrGNDwBv54g3gm1qov7DcMSysDVoPQ8EqaSNbGeAZd9mvN9FcXuQkVaUSCT_ZPXnIMYSNIqihN-onlpuonKdxpIs-ooIEWscPbIzYKX_e_MGIf4vzoOy7ljgtRjjOnpVAr";
+
         //String encodedUserPublicKey = "BB5bKjcRawntzacxKXRVMhfS60h_48ZVHWZDTEbrVufrtwsol4dMNxKvGw8HSpd770MkWi76ovbBj_mJBiLQ1SA=";
         String encodedUserPublicKey = "BFibu83wALJYOqCWIzSKK5Ak6qSHcievsHZEsQv8sfLPPMVJC3oQp9ur64oHOl3mpplZEpNKHnXgPvPspCHclZM=";
 
